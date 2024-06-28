@@ -1,0 +1,40 @@
+{% extends 'user_base.html' %}
+{% block head %}
+        
+   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!--    <link rel="stylesheet" href="style.css">-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+    <title class="heading">Youtube Comment Sentiment Analysis</title>
+
+
+{% endblock head %}
+
+{% block content %}
+    
+    
+        <div class="container body">
+            
+            <h3>Videos</h3>
+            <ul>
+                {% for video in videos %}
+                <li><a href="{{ url_for('analyze_video', video_id=video['id']) }}">{{ video['title'] }}</a></li>
+                {% endfor %}
+            </ul>
+            <h3>Reels</h3>
+            <ul>
+                {% for reel_id in reel_ids %}
+                <li><a href="{{ url_for('analyze_video', video_id=reel_id) }}">{{ reel_id }}</a></li>
+                {% endfor %}
+            </ul>
+            
+        </div>
+    </div>
+{% endblock content %}

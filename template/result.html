@@ -1,0 +1,614 @@
+{% extends 'base.html' %}
+{% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube Comment Sentiment Analyzer</title>
+<!--     <link rel="stylesheet" href="css/style.css"/>-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <style>
+*{
+    padding : 0px;
+    margin : 0px;
+    box-sizing : border-box;
+    list-style : none;
+}
+
+.text{
+    width : 80%;
+    height : 0%;
+    border-radius : 15px;
+    font-size : 28px;
+    margin : 5%;
+    padding : 1%;
+    padding-left : 2%;
+}
+
+.btn{
+    
+    background : rgb(0, 0, 0);
+    box-shadow: 0 0 5px rgb(255 255 255 / 0%), 0 0 30px rgb(255 255 255 / 51%);
+    color: white;
+}
+
+.btn:hover{
+    background-color: white;
+    color : black;
+    box-shadow : 0 0 5px rgb(255, 255, 255), 0 0 40px, rgb(231, 231, 231);
+}
+
+.download-btn{
+    width : 20%;
+    background : var(--snd-bf-color);
+    box-shadow : 0 0 5px cyan, 0 0 30px cyan;
+    color: white;
+    margin-left: 10rem;
+}
+
+.download-btn:hover{
+    color : var(--snd-bf-color);
+    background : white;
+    box-shadow : 0 0 5px cyan, 0 0 50px, cyan;
+}
+
+.prev, .next{
+    width : 5%;
+    background : var(--main-color);
+    box-shadow : 0 0 5px var(--main-color), 0 0 30px var(--main-color);
+}
+
+.prev:hover, .next:hover{
+    color : cyan;
+    box-shadow : 0 0 5px cyan, 0 0 40px, cyan;
+}
+
+.form{
+    width : 85%;
+    height : 70%;
+    border-radius:20px;
+    background : #e7081d;
+    color : white;
+    padding : 10px;
+    margin : 5%;
+    margin-left : 10%;
+    box-shadow: 0 0 5px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
+}
+
+.heading{
+    width : 85%;
+    margin-left : 10%;
+    margin-bottom : 2%;
+    margin-top : 2%;
+    border-radius : 10px;
+    background : #f0ffff;
+    box-shadow : 0 0 5px black, 0 0 50px black;
+    text-align : center;
+    font-size : 45px;
+    font-weight : bold;
+    font-family : Algerian;
+}
+
+.main{
+    width : 100%;
+    height : 100vh;
+    display : flex;
+    text-align : center;
+}
+
+.menu{
+    width : 15%;
+    background-color : #e7081d;
+    border-right : solid white 1px;
+    box-shadow: 0 0 5px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
+}
+
+.menu a{
+    background-color : #000000;
+    color : white;
+    width : 70%;
+    height : 8%;
+    text-align : center;
+    font-size : 30px;
+    letter-spacing : 1px;
+    display : list-item;
+    margin : 15%;
+    padding : 2%;
+    border : 2px solid black;
+    font-family : Roman;
+}
+
+.menu a:hover{
+    background-color : white;
+    box-shadow : 0 0 5px black, 0 0 30px black;
+    letter-spacing : 2px;
+    transition : 0.5s;
+    color : black;
+    font-weight : bold;
+}
+
+#logo{
+    color :black;
+    font-weight : bold;
+    font-size : 45px;
+    letter-spacing : 4px;
+    margin-top : 7%;
+    margin-bottom : 35%;
+    margin-left : 7.5%;
+    padding : 15px;
+    background-color :white;
+    border : 2px solid black;
+    width : 65%;
+    height: em;
+    font-family :algerian;
+    box-shadow : 0 0 15px black;
+}
+
+.body{
+    width : 90%;
+    margin-left : 0px;
+}
+
+.res_top_center{
+    width : 85%;
+    height : 84%;
+    background : var(--main-color);
+    border : 1px solid black;
+    border-radius : 10px;
+    margin-left : 77%;
+    margin-top : 4%;
+    text-align : left;
+    padding : 4.2%;
+    color : white;
+    font-size : 20px;
+    font-family : new roman;
+    font-weight : bold;
+    position : relative;
+}
+
+.res_top_left{
+    width : 100%;
+    height : 95%;
+    background-color : var(--main-color);
+    border : 1px solid black;
+    border-radius : 10px;
+    margin-left : 14%;
+    margin-top : 1%;
+    text-align : left;
+    padding-left : 1%;
+    padding-top : 1.5%;
+    color : white;
+    font-size : 20px;
+    font-family : new roman;
+    font-weight : bold;
+    position:relative;
+}
+
+.img{
+    position : relative;
+    width : 130%;
+    height : 273px;
+    margin-top : 1%;
+    margin-left : 2%;
+    padding : 0%;
+    border : 2px solid red;
+    border-radius : 4%;
+}
+
+.content{
+    height: 260px;
+    width: 460px;
+    position : absolute;
+    display : flex;
+    margin-top: -17.5%;
+    margin-left: 0.9%;
+    background : rgba(0,0,0,0.5);
+    flex-direction: column;
+    opacity: 0;
+    transition: 0.6s;
+    border-radius: 4%;
+    align-items: center;
+    padding: 5%;
+    color : white;
+}
+
+.content:hover{
+    transform: translateY();
+    opacity: 2  ;
+    cursor: pointer;
+}
+
+
+.new{
+    width : 100%;
+    padding : 1%;
+}
+
+.scroll-bg{
+    width : 100%;
+}
+
+.scroll-div{
+    width : 100%;
+    height : 425px;
+    overflow : auto;
+    overflow-y : scroll;
+}
+
+.scroll-obj{
+    color : Black;
+    font-family : arial;
+    font-size : 25px;
+    padding : 2px;
+    text-align : left;
+    margin-left : 1%;
+    width : 99%;
+}
+
+.pos{
+    background : Green;
+    color : white;
+    height : 50px;
+    padding : 6px;
+    font-family : algerian;
+}
+
+.neu{
+    background : gray;
+    color : white;
+    height : 50px;
+    padding : 0%;
+    font-family : algerian;
+}
+
+.neg{
+    background : red;
+    color : white;
+    height : 50px;
+    padding : 6px;
+    font-family : algerian;
+}
+
+.pos_color{
+    background-color : green;
+}
+
+.neu_color{
+    margin-left : 15%;
+    background-color : silver;
+}
+
+.neg_color{
+    margin-left : 28%;
+    background-color : red;
+}
+
+.info-text {
+    font-size: 20px;
+    margin: 20px auto
+}
+.comment-table,
+.comment-table  td {
+    border: 1px solid #dee2e6;
+    border-top: 0px;
+}
+
+.comment-table  td {
+    padding: 5px;
+}
+.comment-table td:first-child {
+    text-align: center;
+    width: 20%;
+  }
+
+.comment-table td:nth-child(1) {
+    text-align: left;
+    width: 60%;
+    overflow-wrap: break-word;
+    /* wrap long text and urls */
+    white-space: pre; /* CSS 2.0 */
+    white-space: pre-wrap; /* CSS 2.1 */
+    white-space: pre-line; /* CSS 3.0 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    white-space: -moz-pre-wrap; /* Mozilla */
+    -ms-word-wrap: break-word; /* IE 5+ */
+    max-width: 450px;
+}
+
+@media screen and (max-width: 480px) {
+    .comment-table td:nth-child(2) {
+        max-width: 300px;
+    }
+}
+
+table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            margin-top: 0px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            word-wrap: break-word;
+            background-color:#f2f2f2;
+        }
+
+        th:nth-child(1), td:nth-child(1) {
+            text-align: left;
+            word-wrap: break-word;
+            width: 0%;
+        }
+
+        td {
+            align-items: center;
+            background-color: white;
+        }
+
+        .filter-btns {
+            display: flex;
+            align-items: center;
+            margin-left: 1.15%;
+            margin-bottom: 0.3%;
+        }
+
+        .filter-btn {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 15%;
+            background-color:white;
+            color: black;
+        }
+
+        .filter-btn1:hover{
+            background-color:Limegreen;
+        }
+
+        .filter-btn2:hover{
+            background-color:silver;
+        }
+        .filter-btn3:hover{
+            background-color:red;
+        }
+
+.author-table {
+      width: 100%;
+      margin-bottom: 20px;
+      margin-top: 0;
+    }
+
+    .author-table th, .author-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .comment-card {
+      border: 1px solid #ddd;
+      padding: 20px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+.show {
+    border: 1px solid #ddd;
+    padding-bottom: 20px;
+    white-space: pre; /* CSS 2.0 */
+    white-space: pre-wrap; /* CSS 2.1 */
+    white-space: pre-line; /* CSS 3.0 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    white-space: -moz-pre-wrap; /* Mozilla */
+    word-wrap: break-word; /* IE 5+ */
+    }
+
+.filter-btn1:active {
+        background-color: Limegreen; /* Choose your desired color */
+        color: white; /* Choose a contrasting text color */
+    }
+
+.filter-btn2:active {
+        background-color: Silver; /* Choose your desired color */
+        color: white; /* Choose a contrasting text color */
+    }
+
+.filter-btn3:active {
+        background-color: Red; /* Choose your desired color */
+        color: white; /* Choose a contrasting text color */
+    }
+
+    </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function showTable(tableType, myButton) {
+
+        // Hide all table
+        document.getElementById('positive-table').style.display = 'none';
+        document.getElementById('negative-table').style.display = 'none';
+        document.getElementById('neutral-table').style.display = 'none';
+
+        // Show selected table
+        document.getElementById(`${tableType}-table`).style.display = 'block';
+    }
+    </script>
+
+</head>
+{% endblock head%}
+
+{% block content %}
+    
+        <div class="body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="res_top_right">
+                        <iframe class="img" src="https://www.youtube.com/embed/{{urls}}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="res_top_left">
+                        <p class="p">Video title: {{ Title }}</p>
+                        <p class="p">Channel name: {{ ChannelName }}</p>
+                        <p class="p">Total views: {{ Views }}</p>
+                        <p class="p">Total likes: {{ Likes }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Published At: {{ PublishedAt }} </p>
+                        <p class="p">Total comments: {{ TotalComments }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total Scraped Comment: {{ scraped }} </p>
+                    </div>
+                </div>
+            </div>
+
+            {% if flag == 1 %}
+            <div class="row">
+                {% if value == True %}
+                {% if data.shape[0] > 0 %}
+                <div class="col-md-12" style="margin-left:5%;">
+                    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" style="height:460px;">
+                                <div class="filter-btns">
+                                    <button class="btn-success filter-btn filter-btn1" onclick="showTable('positive')" style="text-align:left;">Positive</button>
+                                    <button class="btn-light filter-btn filter-btn2" onclick="showTable('neutral')">Neutral</button>
+                                    <button class="btn-danger filter-btn filter-btn3" onclick="showTable('negative')">Negative</button>
+                                    <button class="download-btn" onclick="downloadFile()"><b>Download</b></button>
+                                </div>
+                                <div class="scroll-bg">
+                                    <div class="scroll-div">
+                                        <div class="scroll-obj">
+                                            <div id="positive-table">
+                                                <table class="author-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Author</th>
+                                                        <th>Comment</th>
+                                                        <th>Sentiment</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for row in df1 %}
+                                                    <tr>
+                                                        <td class="info-text">{{row['Author']}}</td>
+                                                        <td class="info-text">{{row['Comment']}}</td>
+                                                        <td class="info-text">{{row['Label']}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                            <div id="neutral-table" style="display: none;">
+                                                <table class="author-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Author</th>
+                                                        <th>Comment</th>
+                                                        <th>Sentiment</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for row in df2 %}
+                                                    <tr>
+                                                        <td class="info-text">{{row['Author']}}</td>
+                                                        <td class="info-text">{{row['Comment']}}</td>
+                                                        <td class="info-text">{{row['Label']}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                            <div id="negative-table" style="display: none;">
+                                                <table class="author-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Author</th>
+                                                        <th>Comment</th>
+                                                        <th>Sentiment</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for row in df3 %}
+                                                    <tr>
+                                                        <td class="info-text">{{row['Author']}}</td>
+                                                        <td class="info-text">{{row['Comment']}}</td>
+                                                        <td class="info-text">{{row['Label']}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                           </div>
+                           <div class="carousel-item" style="height:500px;">
+                               <img src="data:image/png;base64,{{ pie_chart }}" alt="Pie Chart" style="margin-right:5%; width: 42%;">
+                               <img src="data:image/png;base64,{{ emojis }}" alt="Bar Plot" style="width: 42%;">
+                           </div>
+                           <div class="carousel-item" style="height:460px">
+                               <h3 style="position:absolute; margin-left:30%;">Most Frequent Words in Comments</h3>
+                               <img src="{{ frequent_words }}" style="margin-top:1.6%; height:90%; width:95%;">
+                           </div>
+                        </div>
+
+                        <button class="carousel-control-prev prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev" style="color:black; height:40px; margin-top:20%;">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next" style="color:black; height:40px; margin-top:20%;">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                    {% else %}
+                            <div class="col-md-12">
+                                <h1 style="align-items:center; margin-top:13%;">Video has no Comments</h1>
+                            </div>
+                            {% endif %}
+                            {% else %}
+                            <div class="col-md-12">
+                                <h1 style="align-items:center; margin-top:13%;">Comments are disable</h1>
+                            </div>
+                            {% endif %}
+                </div>
+                {% elif flag == 0 %}
+                <script>
+                    alert("Invalid video id");
+                           window.location.href = "/";
+                </script>
+                {% elif flag == 2 %}
+                <script>
+                    alert("Http Error");
+                           window.location.href = "/";
+                </script>
+                {% elif flag == 3 %}
+                <script>
+                    alert("Error");
+                           window.location.href = "/";
+                </script>
+                {% endif %}
+            </div>
+        </div>
+  </div>
+
+
+    <script>
+        function downloadFile() {
+            var directory = 'static/'
+            var fileName = '{{fileName}}'
+            var filePath = directory+fileName+".csv"
+            window.location.href = filePath;
+        }
+    </script>
+{% endblock content %}

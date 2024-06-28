@@ -1,0 +1,19 @@
+{% extends 'user_base.html' %}
+
+{% block content %}
+    
+    
+        <div class="container body m-5 p-5">
+
+            <h2 style="color: var(--main-color);">Video Analysis</h2>
+            <h3>Video ID: {{ video_id }}</h3>
+            <h4>Comments Analysis</h4>
+            <p>Positive Comments: {{ positive_comments }}</p>
+            <p>Neutral Comments: {{ neutral_comments }}</p>
+            <p>Negative Comments: {{ negative_comments }}</p>
+            
+
+        </div>
+ 
+
+{% endblock content %}

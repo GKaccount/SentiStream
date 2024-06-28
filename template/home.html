@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container home">
+    <p class="heading">YOUTUBE SENTIMENT ANALYSIS</p>
+    <div class="main">
+        <div class="right-view">
+            <form name="form" method="POST" action="/result">
+                <input type="text" name="url" class="text" placeholder="Paste Video URL" required />
+                <input type="text" name="file_name" class="text" placeholder="Enter file name" required />
+                <input type="submit" value="Start Analysis" class="btn">
+                <p>If you'r youtuber then login below</p>
+                <a href="/user_dashboard" class="btn">Login with google</a>
+
+            </form>
+        </div>
+        <div class="left-view">
+            <img src="../static/images/ytsentiimg.jpeg" alt="not found" height="100%" width="100%">
+        </div>
+    </div>
+    <div class="loader-container" id="loader">
+        <div class="loader"></div>
+    </div>
+
+
+
+</div>
+{% endblock %}

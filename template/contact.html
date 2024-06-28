@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    <div class="body">
+        <div class="row heading" style="margin-left: 10%; margin-top:2%">
+            <div class="col-md-12">
+                <h1 class="display-4 font-weight-bold text-uppercase text-center">Feedback Form</h1>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:8%; margin-left: 10%">
+            
+            
+
+                <form action="#">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input type="text" id="Name" name="Name" class="form-control my-2" placeholder="Name" required style="border: black solid 2px;">
+                        </div>
+                        <br>
+                        <div class="col-md-5">
+                            <input type="text" id="Mail" name="Mail" class="form-control my-2" placeholder="E-Mail" required style="border: black solid 2px;">
+                        </div>
+                        <br>
+                        <div class="col-md-10">
+                            <input type="text" id="subject" name="Subject" class="form-control my-2" placeholder="Subject" required style="border: black solid 2px;">
+                        </div>
+                        <br>
+                        <div class="col-md-10">
+                            <textarea rows="10" cols="20" id="Message" name="Message" class="form-control my-2" placeholder="Message" required style="border: black solid 2px;"></textarea>
+                        </div>
+
+                        <div class="col-md-3">
+                            <input type="Submit" class="btn" id="submitButton">
+                        </div>
+                    </div>
+                </form>
+                
+        </div>
+    </div>
+  </div>
+  {% endblock content %}
